@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel Data Setup</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .status { padding: 15px; margin: 10px 0; border-radius: 4px; text-align: center; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 10px; }
+        button:hover { background: #0056b3; }
+        .data-preview { background: #f8f9fa; padding: 15px; border-radius: 4px; margin: 10px 0; font-family: monospace; font-size: 0.9rem; max-height: 200px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛠️ Admin Panel Data Setup</h1>
+        
+        <div id="status" class="status info">
+            Setting up admin panel data...
+        </div>
+        
+        <button onclick="setupSampleData()">📊 Create Sample Data</button>
+        <button onclick="checkCurrentData()">🔍 Check Current Data</button>
+        <button onclick="clearAllData()">🗑️ Clear All Data</button>
+        <button onclick="openAdminPanel()">👨‍💼 Open Admin Panel</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function showStatus(message, type = 'info') {
+            document.getElementById('status').innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function showResults(content) {
+            document.getElementById('results').innerHTML = content;
+        }
+
+        function setupSampleData() {
+            showStatus('Creating sample data...', 'info');
+            
+            // Sample Products
+            const sampleProducts = [
+                {
+                    id: '1',
+                    name: 'Laptop Pro 15"',
+                    category: 'electronics',
+                    price: 1299.99,
+                    stock: 25,
+                    status: 'active',
+                    image: 'laptop',
+                    description: 'High-performance laptop with 15" display',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: '2',
+                    name: 'Wireless Mouse',
+                    category: 'electronics',
+                    price: 29.99,
+                    stock: 100,
+                    status: 'active',
+                    image: 'mouse',
+                    description: 'Ergonomic wireless mouse',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: '3',
+                    name: 'USB-C Hub',
+                    category: 'electronics',
+                    price: 49.99,
+                    stock: 50,
+                    status: 'active',
+                    image: 'usb',
+                    description: 'Multi-port USB-C hub',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: '4',
+                    name: 'Mechanical Keyboard',
+                    category: 'electronics',
+                    price: 89.99,
+                    stock: 30,
+                    status: 'active',
+                    image: 'keyboard',
+                    description: 'RGB mechanical keyboard',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: '5',
+                    name: 'Monitor Stand',
+                    category: 'accessories',
+                    price: 39.99,
+                    stock: 40,
+                    status: 'active',
+                    image: 'stand',
+                    description: 'Adjustable monitor stand',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            // Sample Orders
+            const sampleOrders = [
+                {
+                    id: 'ORD001',
+                    customer: 'John Smith',
+                    email: 'john.smith@email.com',
+                    phone: '+1-555-0123',
+                    items: [
+                        {
+                            id: '1',
+                            name: 'Laptop Pro 15"',
+                            price: 1299.99,
+                            quantity: 1,
+                            image: 'laptop'
+                        },
+                        {
+                            id: '2',
+                            name: 'Wireless Mouse',
+                            price: 29.99,
+                            quantity: 1,
+                            image: 'mouse'
+                        }
+                    ],
+                    subtotal: 1329.98,
+                    shippingCost: 15.00,
+                    total: 1344.98,
+                    status: 'pending',
+                    paymentMethod: 'credit_card',
+                    shippingAddress: {
+                        street: '123 Main St',
+                        city: 'New York',
+                        state: 'NY',
+                        zipCode: '10001',
+                        country: 'USA'
+                    },
+                    orderDate: '2024-01-15',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 'ORD002',
+                    customer: 'Sarah Johnson',
+                    email: 'sarah.j@email.com',
+                    phone: '+1-555-0124',
+                    items: [
+                        {
+                            id: '4',
+                            name: 'Mechanical Keyboard',
+                            price: 89.99,
+                            quantity: 2,
+                            image: 'keyboard'
+                        }
+                    ],
+                    subtotal: 179.98,
+                    shippingCost: 10.00,
+                    total: 189.98,
+                    status: 'completed',
+                    paymentMethod: 'paypal',
+                    shippingAddress: {
+                        street: '456 Oak Ave',
+                        city: 'Los Angeles',
+                        state: 'CA',
+                        zipCode: '90001',
+                        country: 'USA'
+                    },
+                    orderDate: '2024-01-14',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 'ORD003',
+                    customer: 'Mike Wilson',
+                    email: 'mike.w@email.com',
+                    phone: '+1-555-0125',
+                    items: [
+                        {
+                            id: '3',
+                            name: 'USB-C Hub',
+                            price: 49.99,
+                            quantity: 3,
+                            image: 'usb'
+                        },
+                        {
+                            id: '5',
+                            name: 'Monitor Stand',
+                            price: 39.99,
+                            quantity: 1,
+                            image: 'stand'
+                        }
+                    ],
+                    subtotal: 189.96,
+                    shippingCost: 12.00,
+                    total: 201.96,
+                    status: 'processing',
+                    paymentMethod: 'debit_card',
+                    shippingAddress: {
+                        street: '789 Pine Rd',
+                        city: 'Chicago',
+                        state: 'IL',
+                        zipCode: '60007',
+                        country: 'USA'
+                    },
+                    orderDate: '2024-01-13',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            
+            // Sample Customers
+            const sampleCustomers = [
+                {
+                    id: '1',
+                    name: 'John Smith',
+                    firstName: 'John',
+                    lastName: 'Smith',
+                    email: 'john.smith@email.com',
+                    phone: '+1-555-0123',
+                    address: '123 Main St, New York, NY 10001',
+                    orders: 1,
+                    totalSpent: 1344.98,
+                    registeredAt: new Date().toISOString()
+                },
+                {
+                    id: '2',
+                    name: 'Sarah Johnson',
+                    firstName: 'Sarah',
+                    lastName: 'Johnson',
+                    email: 'sarah.j@email.com',
+                    phone: '+1-555-0124',
+                    address: '456 Oak Ave, Los Angeles, CA 90001',
+                    orders: 1,
+                    totalSpent: 189.98,
+                    registeredAt: new Date().toISOString()
+                },
+                {
+                    id: '3',
+                    name: 'Mike Wilson',
+                    firstName: 'Mike',
+                    lastName: 'Wilson',
+                    email: 'mike.w@email.com',
+                    phone: '+1-555-0125',
+                    address: '789 Pine Rd, Chicago, IL 60007',
+                    orders: 1,
+                    totalSpent: 201.96,
+                    registeredAt: new Date().toISOString()
+                }
+            ];
+            
+            // Save to localStorage
+            localStorage.setItem('products', JSON.stringify(sampleProducts));
+            localStorage.setItem('orders', JSON.stringify(sampleOrders));
+            localStorage.setItem('users', JSON.stringify(sampleCustomers));
+            
+            showStatus('✅ Sample data created successfully!', 'success');
+            showResults(`
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin: 10px 0;">
+                    <h3>✅ Sample Data Created</h3>
+                    <p><strong>📦 Products:</strong> ${sampleProducts.length} items</p>
+                    <p><strong>📋 Orders:</strong> ${sampleOrders.length} orders</p>
+                    <p><strong>👥 Customers:</strong> ${sampleCustomers.length} customers</p>
+                    <p><strong>💰 Total Revenue:</strong> $${sampleOrders.reduce((sum, order) => sum + order.total, 0).toFixed(2)}</p>
+                    <hr>
+                    <h4>📋 Order Details:</h4>
+                    <div class="data-preview">
+${sampleOrders.map(order => `
+Order ID: ${order.id}
+Customer: ${order.customer}
+Email: ${order.email}
+Phone: ${order.phone}
+Items: ${order.items.length} products
+Total: $${order.total}
+Status: ${order.status}
+Payment: ${order.paymentMethod}
+Address: ${order.shippingAddress.street}, ${order.shippingAddress.city}
+---
+`).join('')}
+                    </div>
+                </div>
+            `);
+        }
+
+        function checkCurrentData() {
+            showStatus('Checking current data...', 'info');
+            
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const customers = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            showResults(`
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin: 10px 0;">
+                    <h3>📊 Current Data Status</h3>
+                    <p><strong>📦 Products:</strong> ${products.length} items</p>
+                    <p><strong>📋 Orders:</strong> ${orders.length} orders</p>
+                    <p><strong>👥 Customers:</strong> ${customers.length} customers</p>
+                    
+                    ${orders.length > 0 ? `
+                        <hr>
+                        <h4>📋 Recent Orders:</h4>
+                        <div class="data-preview">
+${orders.slice(0, 3).map(order => `
+Order ID: ${order.id}
+Customer: ${order.customer}
+Total: $${order.total}
+Status: ${order.status}
+Items: ${order.items ? order.items.length : 0}
+---
+`).join('')}
+                        </div>
+                    ` : '<p><strong>⚠️ No orders found. Click "Create Sample Data" to add sample orders.</strong></p>'}
+                </div>
+            `);
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all data? This will remove all products, orders, and customers.')) {
+                localStorage.removeItem('products');
+                localStorage.removeItem('orders');
+                localStorage.removeItem('users');
+                
+                showStatus('🗑️ All data cleared', 'info');
+                showResults(`
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin: 10px 0;">
+                        <h3>🗑️ Data Cleared</h3>
+                        <p>All products, orders, and customers have been removed from localStorage.</p>
+                        <p>Click "Create Sample Data" to add sample data again.</p>
+                    </div>
+                `);
+            }
+        }
+
+        function openAdminPanel() {
+            window.open('admin.html', '_blank');
+        }
+
+        // Auto-check on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(checkCurrentData, 500);
+        });
+    </script>
+</body>
+</html>

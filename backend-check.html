@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Connection Checker</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .status { padding: 15px; margin: 10px 0; border-radius: 4px; text-align: center; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 10px; }
+        button:hover { background: #0056b3; }
+        .test-item { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 4px; border-left: 4px solid #007bff; }
+        .quick-check { display: flex; gap: 10px; margin: 15px 0; }
+        .quick-check button { flex: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Backend Connection Checker</h1>
+        
+        <div id="status" class="status info">
+            Click below to check backend connection...
+        </div>
+        
+        <div class="quick-check">
+            <button onclick="quickCheck()">⚡ Quick Check</button>
+            <button onclick="detailedCheck()">🔍 Detailed Check</button>
+            <button onclick="testOrders()">📦 Test Orders</button>
+            <button onclick="testProducts()">🛍️ Test Products</button>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function showStatus(message, type = 'info') {
+            document.getElementById('status').innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function showResults(content) {
+            document.getElementById('results').innerHTML = content;
+        }
+
+        async function quickCheck() {
+            showStatus('🔍 Checking backend connection...', 'info');
+            
+            try {
+                const startTime = performance.now();
+                
+                const response = await fetch('http://localhost:8080/', {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const endTime = performance.now();
+                const responseTime = (endTime - startTime).toFixed(2);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    showStatus('✅ Backend Connected!', 'success');
+                    showResults(`
+                        <div class="test-item">
+                            <h3>✅ Backend Server is Running</h3>
+                            <p><strong>🌐 URL:</strong> http://localhost:8080</p>
+                            <p><strong>⚡ Response Time:</strong> ${responseTime}ms</p>
+                            <p><strong>📊 Status:</strong> ${data.status}</p>
+                            <p><strong>💬 Message:</strong> ${data.message}</p>
+                            <p><strong>🕐 Timestamp:</strong> ${data.timestamp}</p>
+                            <hr>
+                            <h4>🎯 What this means:</h4>
+                            <ul>
+                                <li>✅ Backend server is running</li>
+                                <li>✅ API endpoints are working</li>
+                                <li>✅ Orders can be saved to backend</li>
+                                <li>✅ Products can be managed</li>
+                                <li>✅ Admin panel will show backend data</li>
+                            </ul>
+                        </div>
+                    `);
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+            } catch (error) {
+                showStatus('❌ Backend Not Connected', 'error');
+                showResults(`
+                    <div class="test-item">
+                        <h3>❌ Backend Server is NOT Running</h3>
+                        <p><strong>🔍 Error:</strong> ${error.message}</p>
+                        <hr>
+                        <h4>🚀 How to Fix:</h4>
+                        <ol>
+                            <li>Open Command Prompt</li>
+                            <li>Navigate to backend folder: <code>cd "c:/Users/Dell/OneDrive/New folder/OnlineShoppingCart/backend"</code></li>
+                            <li>Start backend: <code>java BackendServer</code></li>
+                            <li>Wait for: "✅ Server started successfully on port 8080"</li>
+                        </ol>
+                        <hr>
+                        <h4>⚠️ What this means:</h4>
+                        <ul>
+                            <li>❌ Backend server is not running</li>
+                            <li>⚠️ Orders will only save to localStorage</li>
+                            <li>⚠️ Admin panel shows local data only</li>
+                            <li>⚠️ No persistent storage</li>
+                        </ul>
+                    </div>
+                `);
+            }
+        }
+
+        async function detailedCheck() {
+            showStatus('🔍 Performing detailed check...', 'info');
+            
+            const tests = [
+                { name: 'Server Connection', url: 'http://localhost:8080/', method: 'GET' },
+                { name: 'Orders API', url: 'http://localhost:8080/api/orders', method: 'GET' },
+                { name: 'Products API', url: 'http://localhost:8080/api/products', method: 'GET' },
+                { name: 'Users API', url: 'http://localhost:8080/api/users', method: 'GET' }
+            ];
+            
+            let results = '<h3>🔍 Detailed Backend Check Results</h3>';
+            let passed = 0;
+            let failed = 0;
+            
+            for (const test of tests) {
+                try {
+                    const startTime = performance.now();
+                    
+                    const response = await fetch(test.url, {
+                        method: test.method,
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    
+                    const endTime = performance.now();
+                    const responseTime = (endTime - startTime).toFixed(2);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        results += `
+                            <div class="test-item" style="border-left-color: #28a745;">
+                                <h4>✅ ${test.name}</h4>
+                                <p><strong>🌐 URL:</strong> ${test.url}</p>
+                                <p><strong>⚡ Response Time:</strong> ${responseTime}ms</p>
+                                <p><strong>📊 Status:</strong> Working</p>
+                                <p><strong>📄 Response:</strong> ${JSON.stringify(data).substring(0, 100)}...</p>
+                            </div>
+                        `;
+                        passed++;
+                    } else {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                } catch (error) {
+                    results += `
+                        <div class="test-item" style="border-left-color: #dc3545;">
+                            <h4>❌ ${test.name}</h4>
+                            <p><strong>🌐 URL:</strong> ${test.url}</p>
+                            <p><strong>❌ Error:</strong> ${error.message}</p>
+                        </div>
+                    `;
+                    failed++;
+                }
+            }
+            
+            results += `
+                <div class="test-item">
+                    <h3>📊 Summary</h3>
+                    <p><strong>✅ Passed:</strong> ${passed}</p>
+                    <p><strong>❌ Failed:</strong> ${failed}</p>
+                    <p><strong>📈 Success Rate:</strong> ${((passed / (passed + failed)) * 100).toFixed(1)}%</p>
+                </div>
+            `;
+            
+            showResults(results);
+            
+            if (failed === 0) {
+                showStatus('✅ All Backend Services Working!', 'success');
+            } else {
+                showStatus(`⚠️ ${failed} Services Not Working`, 'warning');
+            }
+        }
+
+        async function testOrders() {
+            showStatus('📦 Testing order system...', 'info');
+            
+            try {
+                // Test creating an order
+                const testOrder = {
+                    customer: 'Test Customer',
+                    items: [{ name: 'Test Product', price: 99.99, quantity: 1 }],
+                    total: 99.99,
+                    status: 'pending',
+                    date: new Date().toISOString()
+                };
+                
+                const response = await fetch('http://localhost:8080/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testOrder)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    showStatus('✅ Order System Working!', 'success');
+                    showResults(`
+                        <div class="test-item">
+                            <h3>✅ Order System Test Results</h3>
+                            <p><strong>📦 Order Created:</strong> ${result.id}</p>
+                            <p><strong>📊 Status:</strong> ${result.status}</p>
+                            <p><strong>💬 Message:</strong> ${result.message}</p>
+                            <p><strong>🕐 Timestamp:</strong> ${result.timestamp}</p>
+                            <hr>
+                            <h4>🎯 What this means:</h4>
+                            <ul>
+                                <li>✅ Customers can place orders</li>
+                                <li>✅ Orders are saved to backend</li>
+                                <li>✅ Admin panel can view orders</li>
+                                <li>✅ Order status can be updated</li>
+                            </ul>
+                        </div>
+                    `);
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+            } catch (error) {
+                showStatus('❌ Order System Not Working', 'error');
+                showResults(`
+                    <div class="test-item">
+                        <h3>❌ Order System Test Failed</h3>
+                        <p><strong>❌ Error:</strong> ${error.message}</p>
+                        <p><strong>⚠️ Impact:</strong> Orders will only save to localStorage</p>
+                    </div>
+                `);
+            }
+        }
+
+        async function testProducts() {
+            showStatus('🛍️ Testing product system...', 'info');
+            
+            try {
+                // Test creating a product
+                const testProduct = {
+                    name: 'Test Product',
+                    category: 'electronics',
+                    price: 99.99,
+                    stock: 10,
+                    status: 'active'
+                };
+                
+                const response = await fetch('http://localhost:8080/api/products', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testProduct)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    showStatus('✅ Product System Working!', 'success');
+                    showResults(`
+                        <div class="test-item">
+                            <h3>✅ Product System Test Results</h3>
+                            <p><strong>🛍️ Product Created:</strong> ${result.id}</p>
+                            <p><strong>📊 Status:</strong> ${result.status}</p>
+                            <p><strong>💬 Message:</strong> ${result.message}</p>
+                            <hr>
+                            <h4>🎯 What this means:</h4>
+                            <ul>
+                                <li>✅ Admin can add products</li>
+                                <li>✅ Products are saved to backend</li>
+                                <li>✅ Product management works</li>
+                                <li>✅ Inventory tracking available</li>
+                            </ul>
+                        </div>
+                    `);
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+            } catch (error) {
+                showStatus('❌ Product System Not Working', 'error');
+                showResults(`
+                    <div class="test-item">
+                        <h3>❌ Product System Test Failed</h3>
+                        <p><strong>❌ Error:</strong> ${error.message}</p>
+                        <p><strong>⚠️ Impact:</strong> Products will only save to localStorage</p>
+                    </div>
+                `);
+            }
+        }
+
+        // Auto-check on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showStatus('🔍 Backend Connection Checker Ready!', 'info');
+        });
+    </script>
+</body>
+</html>

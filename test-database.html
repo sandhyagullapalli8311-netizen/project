@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Connection Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .data-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        .data-item { padding: 5px 0; border-bottom: 1px solid #eee; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 ShopHub Database Connection Test</h1>
+        
+        <div id="status"></div>
+        
+        <button onclick="testBackendConnection()">🌐 Test Backend Connection</button>
+        <button onclick="checkLocalStorage()">💾 Check LocalStorage Data</button>
+        <button onclick="testAPIEndpoints()">🔧 Test API Endpoints</button>
+        <button onclick="clearAllData()">🗑️ Clear All Data</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api';
+
+        function showStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+
+        function showResults(content) {
+            document.getElementById('results').innerHTML = content;
+        }
+
+        // Test Backend Connection
+        async function testBackendConnection() {
+            showStatus('Testing backend connection...', 'info');
+            
+            try {
+                const response = await fetch('http://localhost:8080');
+                const text = await response.text();
+                
+                if (response.ok) {
+                    showStatus('✅ Backend server is running!', 'success');
+                    showResults(`
+                        <div class="data-section">
+                            <h3>🌐 Backend Response:</h3>
+                            <pre>${text}</pre>
+                        </div>
+                    `);
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                showStatus(`❌ Backend connection failed: ${error.message}`, 'error');
+                showResults(`
+                    <div class="data-section">
+                        <h3>🔧 Troubleshooting:</h3>
+                        <p>1. Make sure backend server is running on port 8080</p>
+                        <p>2. Check if Java is installed and working</p>
+                        <p>3. Try restarting the backend server</p>
+                        <p>4. Error details: ${error.message}</p>
+                    </div>
+                `);
+            }
+        }
+
+        // Check LocalStorage Data
+        function checkLocalStorage() {
+            showStatus('Checking localStorage data...', 'info');
+            
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const adminOrders = JSON.parse(localStorage.getItem('adminOrders') || '[]');
+            
+            let results = `
+                <div class="data-section">
+                    <h3>💾 LocalStorage Data Summary:</h3>
+                    <div class="data-item"><strong>Users:</strong> ${users.length} records</div>
+                    <div class="data-item"><strong>Orders:</strong> ${orders.length} records</div>
+                    <div class="data-item"><strong>Products:</strong> ${products.length} records</div>
+                    <div class="data-item"><strong>Admin Orders:</strong> ${adminOrders.length} records</div>
+                </div>
+            `;
+
+            if (users.length > 0) {
+                results += `
+                    <div class="data-section">
+                        <h3>👥 Users Data:</h3>
+                        ${users.map((user, i) => `
+                            <div class="data-item">
+                                <strong>User ${i + 1}:</strong> ${user.name || user.firstName} (${user.userType || 'CUSTOMER'})
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            if (orders.length > 0) {
+                results += `
+                    <div class="data-section">
+                        <h3>📦 Orders Data:</h3>
+                        ${orders.map((order, i) => `
+                            <div class="data-item">
+                                <strong>Order ${i + 1}:</strong> ${order.customerName} - $${order.total || '0.00'} (${order.status || 'PENDING'})
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            showStatus('✅ LocalStorage data loaded!', 'success');
+            showResults(results);
+        }
+
+        // Test API Endpoints
+        async function testAPIEndpoints() {
+            showStatus('Testing API endpoints...', 'info');
+            
+            const endpoints = [
+                { name: 'Health Check', url: 'http://localhost:8080' },
+                { name: 'API Base', url: 'http://localhost:8080/api' },
+                { name: 'Users Endpoint', url: 'http://localhost:8080/api/users' },
+                { name: 'Orders Endpoint', url: 'http://localhost:8080/api/orders' }
+            ];
+
+            let results = '<div class="data-section"><h3>🔧 API Endpoint Tests:</h3>';
+
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(endpoint.url);
+                    const status = response.ok ? '✅' : '❌';
+                    results += `<div class="data-item">${status} ${endpoint.name}: ${response.status} ${response.statusText}</div>`;
+                } catch (error) {
+                    results += `<div class="data-item">❌ ${endpoint.name}: Failed - ${error.message}</div>`;
+                }
+            }
+
+            results += '</div>';
+            showStatus('API endpoint testing complete!', 'success');
+            showResults(results);
+        }
+
+        // Clear All Data
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all localStorage data?')) {
+                localStorage.removeItem('users');
+                localStorage.removeItem('orders');
+                localStorage.removeItem('products');
+                localStorage.removeItem('adminOrders');
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('currentAdmin');
+                
+                showStatus('🗑️ All localStorage data cleared!', 'success');
+                showResults('<div class="data-section"><h3>✅ Data Cleared</h3><p>All localStorage data has been removed.</p></div>');
+            }
+        }
+
+        // Auto-test on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            checkLocalStorage();
+        });
+    </script>
+</body>
+</html>
