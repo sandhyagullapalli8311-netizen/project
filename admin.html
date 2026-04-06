@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopHub Admin Panel</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="admin-logo">
+                    <i class="fas fa-cogs"></i>
+                    <h1>Admin Panel</h1>
+                </div>
+                <div class="admin-user">
+                    <span id="adminUserName">Not Logged In</span>
+                    <button class="login-btn" id="adminLoginBtn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button class="logout-btn" id="adminLogoutBtn" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Modal -->
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Admin Login</h3>
+                <button class="modal-close" id="closeLoginModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="adminLoginForm" class="login-form">
+                <div class="form-group">
+                    <label for="loginAdminId">Employee ID</label>
+                    <input type="text" id="loginAdminId" name="adminId" placeholder="Enter Employee ID" required>
+                    <i class="fas fa-id-badge input-icon"></i>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" name="password" placeholder="Enter Password" required>
+                    <i class="fas fa-lock input-icon"></i>
+                    <button type="button" class="password-toggle" data-target="loginPassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <a href="admin-signup.html" class="btn btn-secondary">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-dashboard">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav class="admin-nav">
+                <ul>
+                    <li>
+                        <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#products" class="nav-link" data-section="products">
+                            <i class="fas fa-box"></i> Products
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#orders" class="nav-link" data-section="orders">
+                            <i class="fas fa-shopping-cart"></i> Orders
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#customers" class="nav-link" data-section="customers">
+                            <i class="fas fa-users"></i> Customers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#analytics" class="nav-link" data-section="analytics">
+                            <i class="fas fa-chart-line"></i> Analytics
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings" class="nav-link" data-section="settings">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="admin-section active">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Products</h3>
+                            <p class="stat-number">156</p>
+                            <span class="stat-change positive">+12%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Orders</h3>
+                            <p class="stat-number">1,234</p>
+                            <span class="stat-change positive">+8%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Customers</h3>
+                            <p class="stat-number">892</p>
+                            <span class="stat-change positive">+15%</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Revenue</h3>
+                            <p class="stat-number">$45,678</p>
+                            <span class="stat-change positive">+23%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-container">
+                        <h3>Recent Orders</h3>
+                        <div class="recent-orders">
+                            <table class="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#1234</td>
+                                        <td>John Doe</td>
+                                        <td>$299.99</td>
+                                        <td><span class="status completed">Completed</span></td>
+                                        <td>2024-03-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#1235</td>
+                                        <td>Jane Smith</td>
+                                        <td>$149.99</td>
+                                        <td><span class="status processing">Processing</span></td>
+                                        <td>2024-03-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>#1236</td>
+                                        <td>Bob Johnson</td>
+                                        <td>$89.99</td>
+                                        <td><span class="status pending">Pending</span></td>
+                                        <td>2024-03-24</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Section -->
+            <section id="products" class="admin-section">
+                <div class="section-header">
+                    <h2>Product Management</h2>
+                    <button class="btn btn-primary" id="addProductBtn" onclick="showAddProductModal()">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                </div>
+
+                <div class="products-controls">
+                    <div class="search-box">
+                        <input type="text" id="productSearch" placeholder="Search products...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="home">Home & Garden</option>
+                        <option value="sports">Sports</option>
+                        <option value="books">Books</option>
+                        <option value="toys">Toys & Games</option>
+                    </select>
+                </div>
+
+                <div class="products-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            <!-- Products will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="orders" class="admin-section">
+                <div class="section-header">
+                    <h2>Order Management</h2>
+                    <div class="filter-controls">
+                        <select id="orderStatusFilter">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                        <input type="date" id="orderDateFilter">
+                    </div>
+                </div>
+
+                <div class="orders-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <!-- Orders will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Customers Section -->
+            <section id="customers" class="admin-section">
+                <div class="section-header">
+                    <h2>Customer Management</h2>
+                    <div class="search-box">
+                        <input type="text" id="customerSearch" placeholder="Search customers...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="customers-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Orders</th>
+                                <th>Total Spent</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customersTableBody">
+                            <!-- Customers will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="admin-section">
+                <h2>Analytics & Reports</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Sales Overview</h3>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                            <p>Sales chart will be displayed here</p>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Top Products</h3>
+                        <div class="top-products">
+                            <div class="product-stat">
+                                <span>Laptop Pro</span>
+                                <span>234 sold</span>
+                            </div>
+                            <div class="product-stat">
+                                <span>Wireless Headphones</span>
+                                <span>189 sold</span>
+                            </div>
+                            <div class="product-stat">
+                                <span>Smart Watch</span>
+                                <span>156 sold</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Revenue by Category</h3>
+                        <div class="category-stats">
+                            <div class="category-stat">
+                                <span>Electronics</span>
+                                <span>$12,345</span>
+                            </div>
+                            <div class="category-stat">
+                                <span>Clothing</span>
+                                <span>$8,234</span>
+                            </div>
+                            <div class="category-stat">
+                                <span>Sports</span>
+                                <span>$5,678</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="admin-section">
+                <h2>Settings</h2>
+                <div class="settings-form">
+                    <div class="form-group">
+                        <label>Store Name</label>
+                        <input type="text" value="ShopHub" id="storeName">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Email</label>
+                        <input type="email" value="admin@shophub.com" id="contactEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Currency</label>
+                        <select id="currency">
+                            <option value="USD" selected>USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tax Rate (%)</label>
+                        <input type="number" value="10" min="0" max="100" id="taxRate">
+                    </div>
+                    <button class="btn btn-primary">Save Settings</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Product</h3>
+                <button class="close-modal" id="closeProductModal" onclick="hideProductModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="productForm">
+                <div class="form-group">
+                    <label>Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="productCategory" required>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="home">Home & Garden</option>
+                        <option value="sports">Sports</option>
+                        <option value="books">Books</option>
+                        <option value="toys">Toys & Games</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="productPrice" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Stock Quantity</label>
+                    <input type="number" id="productStock" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="productDescription" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" id="productImage">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="productStatus">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelProduct" onclick="hideProductModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+    <script>
+        // Simple navigation handler - Enhanced version
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Admin page loaded - Enhanced Navigation');
+            
+            // Simple navigation handler
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.admin-section');
+            
+            console.log('Found nav links:', navLinks.length);
+            console.log('Found sections:', sections.length);
+            
+            navLinks.forEach((link, index) => {
+                console.log(`Setting up nav link ${index}:`, link.dataset.section);
+                
+                // Add click event listener
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Nav clicked:', this.dataset.section);
+                    
+                    const targetSection = this.dataset.section;
+                    
+                    // Remove active class from all nav links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show target section
+                    const targetElement = document.getElementById(targetSection);
+                    if (targetElement) {
+                        targetElement.classList.add('active');
+                        targetElement.style.display = 'block';
+                        console.log('Showing section:', targetSection);
+                        
+                        // Load data for the section
+                        if (targetSection === 'products') {
+                            loadProducts();
+                        } else if (targetSection === 'orders') {
+                            loadOrders();
+                        } else if (targetSection === 'customers') {
+                            loadCustomers();
+                        } else if (targetSection === 'analytics') {
+                            updateDashboardStats();
+                        }
+                    } else {
+                        console.error('Section not found:', targetSection);
+                    }
+                });
+            });
+            
+            // Add Product button event listener - Enhanced
+            const addProductBtn = document.getElementById('addProductBtn');
+            if (addProductBtn) {
+                addProductBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Add Product button clicked via enhanced handler');
+                    showAddProductModal();
+                });
+                console.log('Add Product button event listener attached');
+            } else {
+                console.error('Add Product button not found');
+            }
+            
+            // Load Products function
+        function loadProducts() {
+            console.log('Loading products...');
+            const tbody = document.getElementById('productsTableBody');
+            if (!tbody) {
+                console.error('Products table body not found');
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            
+            // Get products from localStorage
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            
+            if (products.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No products found</td></tr>';
+                return;
+            }
+            
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>
+                        <div class="product-image-preview">
+                            <i class="fas fa-${product.image || 'box'}"></i>
+                        </div>
+                    </td>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>$${product.price.toFixed(2)}</td>
+                    <td>${product.stock}</td>
+                    <td>
+                        <span class="status ${product.status}">${product.status}</span>
+                    </td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editProduct(${product.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteProduct(${product.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            console.log('Products loaded:', products.length);
+        }
+
+        // Load Orders function - Enhanced
+        function loadOrders() {
+            console.log('Loading orders...');
+            const tbody = document.getElementById('ordersTableBody');
+            if (!tbody) {
+                console.error('Orders table body not found');
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            
+            // Get orders from localStorage
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            console.log('Found orders:', orders.length);
+            
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 20px;">No orders found. Please create sample data first.</td></tr>';
+                return;
+            }
+            
+            orders.forEach((order, index) => {
+                console.log('Processing order:', order);
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#${order.id || 'ORD' + (index + 1)}</td>
+                    <td>
+                        <div class="customer-info">
+                            <div class="customer-name">${order.customer || 'Unknown Customer'}</div>
+                            <div class="customer-email">${order.email || 'N/A'}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-items-summary">
+                            <span class="items-count">${order.items ? order.items.length : 0} items</span>
+                            <div class="items-preview">
+                                ${order.items && order.items.slice(0, 2).map(item => `
+                                    <div class="item-preview">
+                                        <i class="fas fa-${item.image || 'box'}"></i>
+                                        <span>${item.name} x${item.quantity}</span>
+                                    </div>
+                                `).join('')}
+                                ${order.items && order.items.length > 2 ? `<div class="more-items">+${order.items.length - 2} more</div>` : ''}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="order-total">
+                            <div class="total-amount">$${(order.total || 0).toFixed(2)}</div>
+                            <div class="payment-method">${order.paymentMethod || 'N/A'}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status ${order.status || 'pending'}">${order.status || 'pending'}</span>
+                    </td>
+                    <td>${order.orderDate || new Date().toLocaleDateString()}</td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="viewOrderDetails('${order.id || 'ORD' + (index + 1)}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit-btn" onclick="editOrder('${order.id || 'ORD' + (index + 1)}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            console.log('Orders loaded successfully:', orders.length);
+        }
+
+        // Load Customers function
+        function loadCustomers() {
+            console.log('Loading customers...');
+            const tbody = document.getElementById('customersTableBody');
+            if (!tbody) {
+                console.error('Customers table body not found');
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            
+            // Get customers from localStorage
+            const customers = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            if (customers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No customers found</td></tr>';
+                return;
+            }
+            
+            customers.forEach(customer => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${customer.id}</td>
+                    <td>${customer.name || (customer.firstName && customer.lastName ? customer.firstName + ' ' + customer.lastName : 'Unknown')}</td>
+                    <td>${customer.email || 'N/A'}</td>
+                    <td>${customer.phone || 'N/A'}</td>
+                    <td>${customer.orders || 0}</td>
+                    <td>$${(customer.totalSpent || 0).toFixed(2)}</td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="viewCustomer(${customer.id})">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit-btn" onclick="editCustomer(${customer.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            console.log('Customers loaded:', customers.length);
+        }
+
+        // Update Dashboard Stats function
+        function updateDashboardStats() {
+            console.log('Updating dashboard stats...');
+            
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const customers = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            const totalProducts = products.length;
+            const totalOrders = orders.length;
+            const totalCustomers = customers.length;
+            const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+            const pendingOrders = orders.filter(order => (order.status || 'pending') === 'pending').length;
+            const completedOrders = orders.filter(order => (order.status || 'pending') === 'completed').length;
+            
+            // Update dashboard stats if elements exist
+            const statElements = {
+                totalProducts: document.querySelector('.stat-number'),
+                totalOrders: document.querySelector('.stat-number:nth-of-type(2)'),
+                totalCustomers: document.querySelector('.stat-number:nth-of-type(3)'),
+                totalRevenue: document.querySelector('.stat-number:nth-of-type(4)'),
+                pendingOrders: document.querySelector('.stat-number:nth-of-type(5)'),
+                completedOrders: document.querySelector('.stat-number:nth-of-type(6)')
+            };
+            
+            if (statElements.totalProducts) statElements.totalProducts.textContent = totalProducts;
+            if (statElements.totalOrders) statElements.totalOrders.textContent = totalOrders;
+            if (statElements.totalCustomers) statElements.totalCustomers.textContent = totalCustomers;
+            if (statElements.totalRevenue) statElements.totalRevenue.textContent = `$${totalRevenue.toFixed(2)}`;
+            if (statElements.pendingOrders) statElements.pendingOrders.textContent = pendingOrders;
+            if (statElements.completedOrders) statElements.completedOrders.textContent = completedOrders;
+            
+            console.log('Dashboard stats updated');
+        }
+
+        // Placeholder functions for edit/delete/view
+        function editProduct(productId) {
+            console.log('Edit product:', productId);
+            alert('Edit product functionality coming soon!');
+        }
+
+        function deleteProduct(productId) {
+            console.log('Delete product:', productId);
+            if (confirm('Are you sure you want to delete this product?')) {
+                let products = JSON.parse(localStorage.getItem('products') || '[]');
+                products = products.filter(p => p.id !== productId);
+                localStorage.setItem('products', JSON.stringify(products));
+                loadProducts();
+                updateDashboardStats();
+                alert('Product deleted successfully!');
+            }
+        }
+
+        function viewOrderDetails(orderId) {
+            console.log('View order details:', orderId);
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const order = orders.find(o => o.id === orderId);
+            
+            if (order) {
+                const itemsList = order.items ? order.items.map(item => 
+                    `${item.name} x${item.quantity} - $${item.price.toFixed(2)}`
+                ).join('\n') : 'No items found';
+                
+                const shippingAddress = order.shippingAddress ? 
+                    `${order.shippingAddress.street}\n${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zipCode}\n${order.shippingAddress.country}` : 
+                    'No shipping address';
+                
+                alert(`📋 ORDER DETAILS\n\n` +
+                    `🆔 Order ID: ${order.id}\n` +
+                    `👤 Customer: ${order.customer || 'N/A'}\n` +
+                    `📧 Email: ${order.email || 'N/A'}\n` +
+                    `📞 Phone: ${order.phone || 'N/A'}\n\n` +
+                    `📦 ITEMS (${order.items ? order.items.length : 0}):\n${itemsList}\n\n` +
+                    `💰 SUBTOTAL: $${(order.subtotal || 0).toFixed(2)}\n` +
+                    `🚚 SHIPPING: $${(order.shippingCost || 0).toFixed(2)}\n` +
+                    `💳 TOTAL: $${(order.total || 0).toFixed(2)}\n\n` +
+                    `💳 Payment Method: ${order.paymentMethod || 'N/A'}\n` +
+                    `📊 Status: ${order.status || 'pending'}\n` +
+                    `📅 Order Date: ${order.orderDate || new Date().toLocaleDateString()}\n\n` +
+                    `🏠 SHIPPING ADDRESS:\n${shippingAddress}`);
+            } else {
+                alert('Order not found: ' + orderId);
+            }
+        }
+
+        function editOrder(orderId) {
+            console.log('Edit order:', orderId);
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const order = orders.find(o => o.id === orderId);
+            
+            if (order) {
+                const newStatus = prompt('Update order status:', order.status || 'pending');
+                if (newStatus && newStatus !== order.status) {
+                    order.status = newStatus;
+                    localStorage.setItem('orders', JSON.stringify(orders));
+                    loadOrders();
+                    alert('Order status updated successfully!');
+                }
+            } else {
+                alert('Order not found: ' + orderId);
+            }
+        }
+
+        function viewCustomer(customerId) {
+            console.log('View customer:', customerId);
+            const customers = JSON.parse(localStorage.getItem('users') || '[]');
+            const customer = customers.find(c => c.id === customerId);
+            if (customer) {
+                alert(`Customer Details:\n\nID: ${customer.id}\nName: ${customer.name || (customer.firstName + ' ' + customer.lastName)}\nEmail: ${customer.email}\nPhone: ${customer.phone}\nOrders: ${customer.orders || 0}\nTotal Spent: $${(customer.totalSpent || 0).toFixed(2)}`);
+            }
+        }
+
+        function editCustomer(customerId) {
+            console.log('Edit customer:', customerId);
+            alert('Edit customer functionality coming soon!');
+        }
+            const closeProductModal = document.getElementById('closeProductModal');
+            if (closeProductModal) {
+                closeProductModal.addEventListener('click', function() {
+                    closeProductModal();
+                });
+            }
+            
+            const cancelProduct = document.getElementById('cancelProduct');
+            if (cancelProduct) {
+                cancelProduct.addEventListener('click', function() {
+                    closeProductModal();
+                });
+            }
+            
+            // Product form submit
+            const productForm = document.getElementById('productForm');
+            if (productForm) {
+                productForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    console.log('Product form submitted');
+                    
+                    // Get form data with proper field names
+                    const productName = document.getElementById('productName').value;
+                    const productCategory = document.getElementById('productCategory').value;
+                    const productPrice = document.getElementById('productPrice').value;
+                    const productStock = document.getElementById('productStock').value;
+                    const productStatus = document.getElementById('productStatus').value;
+                    const productDescription = document.getElementById('productDescription').value;
+                    const productImage = document.getElementById('productImage').value;
+                    
+                    console.log('Form fields collected:', {
+                        productName,
+                        productCategory,
+                        productPrice,
+                        productStock,
+                        productStatus,
+                        productDescription,
+                        productImage
+                    });
+                    
+                    // Validate required fields
+                    if (!productName || !productCategory || !productPrice || !productStock) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+                    
+                    // Create new product
+                    const newProduct = {
+                        id: Date.now().toString(),
+                        name: productName,
+                        category: productCategory,
+                        price: parseFloat(productPrice),
+                        stock: parseInt(productStock),
+                        description: productDescription || '',
+                        status: productStatus || 'active',
+                        image: productImage || 'box',
+                        createdAt: new Date().toISOString()
+                    };
+                    
+                    console.log('New product created:', newProduct);
+                    
+                    // Validate product data
+                    if (newProduct.price <= 0 || newProduct.stock < 0) {
+                        alert('Price must be greater than 0 and stock must be 0 or more');
+                        return;
+                    }
+                    
+                    // Save to backend and localStorage
+                    const products = JSON.parse(localStorage.getItem('products') || '[]');
+                    products.push(newProduct);
+                    localStorage.setItem('products', JSON.stringify(products));
+                    
+                    // Also save to backend
+                    try {
+                        const backendResponse = await fetch('http://localhost:8080/api/products', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(newProduct)
+                        });
+                        
+                        if (backendResponse.ok) {
+                            const backendResult = await backendResponse.json();
+                            console.log('Backend product saved:', backendResult);
+                        } else {
+                            console.log('Backend not available, using localStorage only');
+                        }
+                    } catch (backendError) {
+                        console.log('Backend connection failed, using localStorage only:', backendError.message);
+                    }
+                    
+                    console.log('Product saved to localStorage. Total products:', products.length);
+                    
+                    // Show success message
+                    alert(`Product "${newProduct.name}" added successfully!`);
+                    
+                    // Close modal and reset form
+                    hideProductModal();
+                    productForm.reset();
+                    console.log('Modal closed and form reset');
+                    
+                    // Add product to table directly
+                    addProductToTable(newProduct);
+                    
+                    // Update dashboard stats
+                    updateDashboardStats();
+                    
+                    console.log('Product addition process completed successfully');
+                    
+                });
+            } else {
+                console.error('Product form not found');
+            }
+        });
+        
+        // Global functions for inline onclick
+        function showAddProductModal() {
+            console.log('Add Product button clicked!');
+            
+            const modal = document.getElementById('productModal');
+            console.log('Modal element:', modal);
+            
+            if (modal) {
+                // Show modal with multiple methods
+                modal.style.display = 'flex';
+                modal.style.visibility = 'visible';
+                modal.style.opacity = '1';
+                modal.style.pointerEvents = 'auto';
+                modal.classList.add('active');
+                
+                console.log('Modal should be visible now');
+                
+                // Focus on first input
+                setTimeout(() => {
+                    const firstInput = modal.querySelector('input');
+                    if (firstInput) {
+                        firstInput.focus();
+                    }
+                }, 100);
+                
+            } else {
+                console.error('Product modal not found!');
+                alert('Error: Product modal not found. Please refresh the page.');
+            }
+        }
+        
+        function openProductModal() {
+            console.log('Opening product modal...');
+            const modal = document.getElementById('productModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                console.log('Product modal opened');
+            } else {
+                console.error('Product modal not found');
+            }
+        }
+        
+        function hideProductModal() {
+            console.log('Closing product modal via hideProductModal...');
+            const modal = document.getElementById('productModal');
+            if (modal) {
+                // Hide modal with multiple methods
+                modal.style.display = 'none';
+                modal.style.visibility = 'hidden';
+                modal.style.opacity = '0';
+                modal.style.pointerEvents = 'none';
+                modal.classList.remove('active');
+                modal.setAttribute('aria-hidden', 'true');
+                
+                console.log('Product modal hidden successfully');
+                
+                // Reset form
+                const form = document.getElementById('productForm');
+                if (form) {
+                    form.reset();
+                    console.log('Form reset');
+                }
+                
+            } else {
+                console.error('Product modal not found for hiding');
+            }
+        }
+        
+        function closeProductModal() {
+            console.log('Closing product modal...');
+            const modal = document.getElementById('productModal');
+            if (modal) {
+                // Try multiple methods to close the modal
+                modal.style.display = 'none';
+                modal.classList.remove('active');
+                modal.setAttribute('aria-hidden', 'true');
+                
+                // Also try to hide with CSS
+                modal.style.visibility = 'hidden';
+                modal.style.opacity = '0';
+                modal.style.pointerEvents = 'none';
+                
+                console.log('Product modal closed successfully');
+                
+                // Reset modal state after a short delay
+                setTimeout(() => {
+                    modal.style.visibility = '';
+                    modal.style.opacity = '';
+                    modal.style.pointerEvents = '';
+                }, 300);
+            } else {
+                console.error('Product modal not found');
+            }
+        }
+        
+        // Add product to table directly
+        function addProductToTable(product) {
+            console.log('Adding product to table:', product);
+            
+            const tbody = document.getElementById('productsTableBody');
+            console.log('Table body found:', tbody);
+            
+            if (!tbody) {
+                console.error('Products table body not found');
+                // Try to find it by other means
+                const table = document.querySelector('table');
+                if (table) {
+                    const newTbody = table.querySelector('tbody') || document.createElement('tbody');
+                    if (!table.querySelector('tbody')) {
+                        table.appendChild(newTbody);
+                    }
+                    console.log('Created new tbody');
+                    addProductRow(newTbody, product);
+                } else {
+                    console.error('No table found');
+                }
+                return;
+            }
+            
+            addProductRow(tbody, product);
+        }
+        
+        function addProductRow(tbody, product) {
+            // Check if table is empty and has placeholder text
+            if (tbody.innerHTML.includes('No products found')) {
+                tbody.innerHTML = '';
+            }
+            
+            // Create new row
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${product.id}</td>
+                <td>
+                    <div class="product-image-preview">
+                        <i class="fas fa-${product.image || 'box'}"></i>
+                    </div>
+                </td>
+                <td>${product.name}</td>
+                <td>${product.category}</td>
+                <td>$${product.price.toFixed(2)}</td>
+                <td>${product.stock}</td>
+                <td>
+                    <span class="status ${product.status}">${product.status}</span>
+                </td>
+                <td>
+                    <button class="action-btn edit-btn" onclick="editProduct(${product.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete-btn" onclick="deleteProduct(${product.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
+            
+            // Add to table
+            tbody.appendChild(row);
+            console.log('Product row added to table');
+            
+            // Verify it was added
+            const addedRow = tbody.querySelector(`tr:has(td:contains("${product.id}"))`);
+            console.log('Verification - Row exists:', addedRow);
+        }
+        
+        // Update dashboard stats
+        function updateDashboardStats() {
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            const customers = JSON.parse(localStorage.getItem('users') || '[]');
+            
+            const totalProducts = products.length;
+            const totalOrders = orders.length;
+            const totalCustomers = customers.length;
+            const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+            
+            // Update stat elements
+            const statElements = document.querySelectorAll('.stat-number');
+            if (statElements[0]) statElements[0].textContent = totalProducts;
+            if (statElements[1]) statElements[1].textContent = totalOrders;
+            if (statElements[2]) statElements[2].textContent = totalCustomers;
+            if (statElements[3]) statElements[3].textContent = `$${totalRevenue.toFixed(2)}`;
+            
+            console.log('Dashboard stats updated');
+        }
+        
+        // Delete product function
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                // Remove from localStorage
+                let products = JSON.parse(localStorage.getItem('products') || '[]');
+                products = products.filter(p => p.id !== productId);
+                localStorage.setItem('products', JSON.stringify(products));
+                
+                // Remove from table
+                const row = document.querySelector(`tr:has(button[onclick="deleteProduct(${productId})"])`);
+                if (row) {
+                    row.remove();
+                }
+                
+                alert('Product deleted successfully!');
+                updateDashboardStats();
+            }
+        }
+    </script>
+</body>
+</html>
